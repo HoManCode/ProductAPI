@@ -7,7 +7,7 @@ This repository contains a .NET Core Product API implementing CRUD operations fo
 1.**Clone Repository**: 
 Clone this repository to your local machine.
 
-    ```bash
+    
     git clone https://github.com/HoManCode/ProductAPI.git
 
 2.**Run API**: 
@@ -26,7 +26,6 @@ Clone this repository to your local machine.
 
 Execute unit tests using the following command:
 
-    ```bash
     dotnet test
 
 ## API Documentation
