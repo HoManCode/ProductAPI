@@ -29,18 +29,10 @@ Execute unit tests using the following command:
     dotnet test
 
 ## API Documentation
-GET /products: Retrieves all products.
-GET /products/{id}: Retrieves a product by its ID.
-POST /products: Creates a new product.
-PUT /products/{id}: Updates an existing product.
-DELETE /products/{id}: Deletes a product by its ID.
+GET /products: Retrieves all products.<br>GET /products/{id}: Retrieves a product by its ID.<br>POST /products: Creates a new product.<br>PUT /products/{id}: Updates an existing product.<br>DELETE /products/{id}: Deletes a product by its ID.
 
 ## Technologies Used
-C# .NET 8 Core
-Entity Framework Core (Database Operations)
-xUnit (Unit Testing)
-Swagger (API Documentation)
-Microsoft.Extensions.Logging (Logging)
+C# .NET 8 Core<br>Entity Framework Core (Database Operations)<br>xUnit (Unit Testing)<br>Swagger (API Documentation)<br>Microsoft.Extensions.Logging (Logging)
 
 ## Contributing
 Contributions are welcome! If you find any issues or have suggestions, feel free to open an issue or create a pull request.
