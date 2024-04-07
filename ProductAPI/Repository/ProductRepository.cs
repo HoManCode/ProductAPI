@@ -13,21 +13,26 @@ public class ProductRepository : IProductRepository
         _context = context;
     }
     
-    public void CreateProduct(Product product)
+    public void Create(Product product)
     {
         _context.Set<Product>().Add(product);
         _context.SaveChanges();
     }
 
-    public Product GetProductById(int id)
+    public Product? GetById(int id)
     {
         return _context.Products.Find(id);
     }
+    
+    public Product? GetByNameAndBrand(string name, string brand)
+    {
+        return _context.Products.FirstOrDefault(p => p.Name == name && p.Brand == brand);
+    }
 
-    public void UpdateProduct(Product product, int id)
+    public void Update(Product product, int id)
     {
         var existingProduct = _context.Products.Find(id);
-
+        
         existingProduct.Id = product.Id;
         existingProduct.Name = product.Name;
         existingProduct.Brand = product.Brand;
@@ -37,7 +42,7 @@ public class ProductRepository : IProductRepository
         _context.SaveChanges();
     }
 
-    public void DeleteProduct(int id)
+    public void Delete(int id)
     {
         var existingProduct = _context.Products.Find(id);
         _context.Set<Product>().Remove(existingProduct);

@@ -19,27 +19,75 @@ public class ProductControllers : ControllerBase
     [HttpPost]
     public IActionResult CreateProduct([FromBody]Product product)
     {
-        _productRepository.CreateProduct(product);
-        return Ok(product.Id);
+        try
+        {
+            var existingProduct = _productRepository.GetByNameAndBrand(product.Name, product.Brand);
+            if (existingProduct != null)
+            {
+                return Conflict("There is already a product with \"the same name and brand\"."); // HTTP 409 Conflict
+            }
+            _productRepository.Create(product);
+            return Ok(product);
+        }
+        catch (ArgumentNullException ex)
+        {
+            return NotFound(ex);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex);
+        }
     }
     
     [HttpGet("{id}")]
     public IActionResult GetProductById(int id)
     {
-        return Ok(_productRepository.GetProductById(id));
+        Product? product = _productRepository.GetById(id);
+        if (product == null)
+        {
+            return NotFound("Product does not exist");
+        }
+        return Ok(product);
     }
     
     [HttpPut("{id}")]
     public IActionResult UpdateProduct([FromBody]Product product, int id)
     {
-        _productRepository.UpdateProduct(product,id);
-        return Ok(product);
+        try
+        {
+            var existingProduct = _productRepository.GetByNameAndBrand(product.Name, product.Brand);
+            if (existingProduct != null)
+            {
+                return Conflict("There is already a product with \"the same name and brand\"."); // HTTP 409 Conflict
+            }
+            _productRepository.Update(product,id);
+            return Ok(product);
+        }
+        catch (ArgumentNullException ex)
+        {
+            return NotFound("Product does not exist");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex);
+        }
     }
     
     [HttpDelete("{id}")]
     public IActionResult DeleteProduct(int id)
     {
-        _productRepository.DeleteProduct(id);
-        return Ok();
+        try
+        {
+            _productRepository.Delete(id);
+            return Ok();
+        }
+        catch (ArgumentException)
+        {
+            return NotFound("Product does not exist");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex);
+        }
     }
 }
