@@ -37,7 +37,7 @@ public class ProductControllers : ControllerBase
     }
     
     [HttpDelete("{id}")]
-    public IActionResult UpdateProduct(int id)
+    public IActionResult DeleteProduct(int id)
     {
         _productRepository.DeleteProduct(id);
         return Ok();
