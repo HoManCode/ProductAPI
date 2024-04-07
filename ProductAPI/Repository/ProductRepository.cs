@@ -21,16 +21,26 @@ public class ProductRepository : IProductRepository
 
     public Product GetProductById(int id)
     {
-        return _context.Products.SingleOrDefault(product => product.Id == id);
+        return _context.Products.Find(id);
     }
 
-    public void UpdateProduct(Product product)
+    public void UpdateProduct(Product product, int id)
     {
-        throw new NotImplementedException();
+        var existingProduct = _context.Products.Find(id);
+
+        existingProduct.Id = product.Id;
+        existingProduct.Name = product.Name;
+        existingProduct.Brand = product.Brand;
+        existingProduct.Price = product.Price;
+        
+        _context.Set<Product>().Add(existingProduct);
+        _context.SaveChanges();
     }
 
-    public void DeleteProduct(Product product)
+    public void DeleteProduct(int id)
     {
-        throw new NotImplementedException();
+        var existingProduct = _context.Products.Find(id);
+        _context.Set<Product>().Remove(existingProduct);
+        _context.SaveChanges();
     }
 }

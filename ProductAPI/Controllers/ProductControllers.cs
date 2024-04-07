@@ -28,4 +28,18 @@ public class ProductControllers : ControllerBase
     {
         return Ok(_productRepository.GetProductById(id));
     }
+    
+    [HttpPut("{id}")]
+    public IActionResult UpdateProduct([FromBody]Product product, int id)
+    {
+        _productRepository.UpdateProduct(product,id);
+        return Ok(product);
+    }
+    
+    [HttpDelete("{id}")]
+    public IActionResult UpdateProduct(int id)
+    {
+        _productRepository.DeleteProduct(id);
+        return Ok();
+    }
 }
