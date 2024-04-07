@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using ProductAPI.Data;
 using ProductAPI.Models;
 
@@ -6,7 +5,7 @@ namespace ProductAPI.Repository;
 
 public class ProductRepository : IProductRepository
 {
-    private ProductContext _context;
+    private readonly ProductContext _context;
 
     public ProductRepository(ProductContext context)
     {

@@ -11,7 +11,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddDbContext<ProductContext>(opt => opt.UseInMemoryDatabase("ProductDB"));
-
+builder.Services.AddLogging(b => { b.AddConsole(); });
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

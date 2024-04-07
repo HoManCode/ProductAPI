@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using ProductAPI.Models;
 using ProductAPI.Repository;
@@ -7,23 +6,28 @@ namespace ProductAPI.Controllers;
 
 [Route("api/products")]
 [ApiController]
-public class ProductControllers : ControllerBase
+public class ProductController : ControllerBase
 {
     private readonly IProductRepository _productRepository;
+    
+    private readonly ILogger<ProductController> _logger;
 
-    public ProductControllers(IProductRepository productRepository)
+    public ProductController(IProductRepository productRepository, ILogger<ProductController> logger)
     {
         _productRepository = productRepository;
+        _logger = logger;
     }
 
     [HttpPost]
     public IActionResult CreateProduct([FromBody]Product product)
     {
+        _logger.LogInformation("creating product with Name: {ProductName} and Brand: {ProductBrand}", product.Name,product.Brand);
         try
         {
             var existingProduct = _productRepository.GetByNameAndBrand(product.Name, product.Brand);
             if (existingProduct != null)
             {
+                _logger.LogError("There is already a product with Name: {ProductName} and Brand: {ProductBrand}", product.Name,product.Brand);
                 return Conflict("There is already a product with \"the same name and brand\"."); // HTTP 409 Conflict
             }
             _productRepository.Create(product);
@@ -31,10 +35,12 @@ public class ProductControllers : ControllerBase
         }
         catch (ArgumentNullException ex)
         {
+            _logger.LogError(ex, "An error occurred while processing the request: {ErrorMessage}", ex.Message);
             return NotFound(ex);
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "An error occurred while processing the request: {ErrorMessage}", ex.Message);
             return BadRequest(ex);
         }
     }
@@ -42,9 +48,11 @@ public class ProductControllers : ControllerBase
     [HttpGet("{id}")]
     public IActionResult GetProductById(int id)
     {
+        _logger.LogInformation("Getting product with Id: {ProductId}", id);
         Product? product = _productRepository.GetById(id);
         if (product == null)
         {
+            _logger.LogInformation("Product with Id: {ProductId} does not exist", id);
             return NotFound("Product does not exist");
         }
         return Ok(product);
@@ -53,11 +61,13 @@ public class ProductControllers : ControllerBase
     [HttpPut("{id}")]
     public IActionResult UpdateProduct([FromBody]Product product, int id)
     {
+        _logger.LogInformation("Updating product with Id: {ProductId}", id);
         try
         {
             var existingProduct = _productRepository.GetByNameAndBrand(product.Name, product.Brand);
             if (existingProduct != null)
             {
+                _logger.LogError("There is already a product with Name: {ProductName} and Brand: {ProductBrand}", product.Name,product.Brand);
                 return Conflict("There is already a product with \"the same name and brand\"."); // HTTP 409 Conflict
             }
             _productRepository.Update(product,id);
@@ -65,10 +75,12 @@ public class ProductControllers : ControllerBase
         }
         catch (ArgumentNullException ex)
         {
+            _logger.LogError(ex, "An error occurred while processing the request: {ErrorMessage}", ex.Message);
             return NotFound("Product does not exist");
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "An error occurred while processing the request: {ErrorMessage}", ex.Message);
             return BadRequest(ex);
         }
     }
@@ -76,17 +88,20 @@ public class ProductControllers : ControllerBase
     [HttpDelete("{id}")]
     public IActionResult DeleteProduct(int id)
     {
+        _logger.LogInformation("Deleting product with Id: {ProductId}", id);
         try
         {
             _productRepository.Delete(id);
             return Ok();
         }
-        catch (ArgumentException)
+        catch (ArgumentException ex)
         {
+            _logger.LogError(ex, "An error occurred while processing the request: {ErrorMessage}", ex.Message);
             return NotFound("Product does not exist");
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "An error occurred while processing the request: {ErrorMessage}", ex.Message);
             return BadRequest(ex);
         }
     }
