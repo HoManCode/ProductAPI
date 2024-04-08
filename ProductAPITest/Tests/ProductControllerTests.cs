@@ -83,6 +83,27 @@ public class ProductControllerTests
     }
     
     [Fact]
+    public void GetAllProducts_ReturnsOkResultWithProducts()
+    {
+        // Arrange
+        var queryParameters = new QueryParameters();
+        var products = new List<Product>
+        {
+            new Product { Id = 1, Name = "Product 1", Brand = "Brand 1", Price = 11.1m },
+            new Product { Id = 2, Name = "Product 2", Brand = "Brand 2", Price = 22.2m }
+        };
+        _mockProductRepository.Setup(repo => repo.GetAll(queryParameters)).Returns(products.AsQueryable());
+
+        // Act
+        var result = _sut.GetAllProducts(queryParameters);
+
+        // Assert
+        var okResult = Assert.IsType<OkObjectResult>(result);
+        var returnedProducts = Assert.IsAssignableFrom<IEnumerable<Product>>(okResult.Value);
+        Assert.Equal(2, returnedProducts.Count());
+    }
+    
+    [Fact]
     public void UpdateProduct_ProductExists_ReturnsOkResult()
     {
         // Arrange
