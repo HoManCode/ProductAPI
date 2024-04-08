@@ -13,18 +13,18 @@ public class ProductRepository : IProductRepository
         _context = context;
     }
     
-    public void Create(Product product)
+    public async Task Create(Product product)
     {
-        _context.Set<Product>().Add(product);
-        _context.SaveChanges();
+        _context.Products.Add(product);
+        await _context.SaveChangesAsync();
     }
 
-    public Product? GetById(int id)
+    public async Task<Product?> GetById(int id)
     {
-        return _context.Products.Find(id);
+        return await _context.Products.FindAsync(id);
     }
 
-    public IQueryable<Product> GetAll(QueryParameters queryParameters)
+    public async Task<List<Product>> GetAll(QueryParameters queryParameters)
     {
         IQueryable<Product> products = _context.Products;
         
@@ -44,31 +44,45 @@ public class ProductRepository : IProductRepository
             .Skip(queryParameters.Size * (queryParameters.Page - 1))
             .Take(queryParameters.Size);
         
-        return products;
+        return await products.ToListAsync();
     }
 
-    public Product? GetByNameAndBrand(string name, string brand)
+    public async Task<Product?> GetByNameAndBrand(string name, string brand)
     {
-        return _context.Products.FirstOrDefault(p => p.Name == name && p.Brand == brand);
+        return await _context.Products.FirstOrDefaultAsync(p => p.Name == name && p.Brand == brand);
     }
 
-    public void Update(Product product, int id)
+    public async Task Update(Product product, int id)
     {
-        var existingProduct = _context.Products.Find(id);
+        var existingProduct = await _context.Products.FindAsync(id);
+
+        if (existingProduct != null)
+        {
+            existingProduct.Id = product.Id;
+            existingProduct.Name = product.Name;
+            existingProduct.Brand = product.Brand;
+            existingProduct.Price = product.Price;
+            _context.Products.Add(existingProduct);
+            await _context.SaveChangesAsync();
+        }
+        else
+        {
+            throw new ArgumentException($"Product does not exist");
+        }
+    }
+
+    public async Task Delete(int id)
+    {
+        var existingProduct = await _context.Products.FindAsync(id);
         
-        existingProduct.Id = product.Id;
-        existingProduct.Name = product.Name;
-        existingProduct.Brand = product.Brand;
-        existingProduct.Price = product.Price;
-        
-        _context.Set<Product>().Add(existingProduct);
-        _context.SaveChanges();
-    }
-
-    public void Delete(int id)
-    {
-        var existingProduct = _context.Products.Find(id);
-        _context.Set<Product>().Remove(existingProduct);
-        _context.SaveChanges();
+        if (existingProduct != null)
+        {
+            _context.Set<Product>().Remove(existingProduct);
+            await _context.SaveChangesAsync();
+        }
+        else
+        {
+            throw new ArgumentException($"Product does not exist");
+        }
     }
 }

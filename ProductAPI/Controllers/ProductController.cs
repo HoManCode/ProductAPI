@@ -19,18 +19,18 @@ public class ProductController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult CreateProduct([FromBody]Product product)
+    public async Task<ActionResult> CreateProduct([FromBody]Product product)
     {
         _logger.LogInformation("creating product with Name: {ProductName} and Brand: {ProductBrand}", product.Name,product.Brand);
         try
         {
-            var existingProduct = _productRepository.GetByNameAndBrand(product.Name, product.Brand);
+            var existingProduct = await _productRepository.GetByNameAndBrand(product.Name, product.Brand);
             if (existingProduct != null)
             {
                 _logger.LogError("There is already a product with Name: {ProductName} and Brand: {ProductBrand}", product.Name,product.Brand);
-                return Conflict("There is already a product with \"the same name and brand\"."); // HTTP 409 Conflict
+                return Conflict("There is already a product with \"the same name and brand\"."); 
             }
-            _productRepository.Create(product);
+            await _productRepository.Create(product);
             return Ok(product);
         }
         catch (ArgumentNullException ex)
@@ -46,36 +46,36 @@ public class ProductController : ControllerBase
     }
     
     [HttpGet("{id}")]
-    public IActionResult GetProductById(int id)
+    public async Task<IActionResult> GetProductById(int id)
     {
         _logger.LogInformation("Getting product with Id: {ProductId}", id);
-        var product = _productRepository.GetById(id);
+        var product = await _productRepository.GetById(id);
         if (product != null) return Ok(product);
         _logger.LogInformation("Product with Id: {ProductId} does not exist", id);
         return NotFound("Product does not exist");
     }
     
     [HttpGet]
-    public IActionResult GetAllProducts([FromQuery]QueryParameters queryParameters)
+    public async Task<IActionResult> GetAllProducts([FromQuery]QueryParameters queryParameters)
     {
         _logger.LogInformation("Getting requested products");
-        IQueryable<Product> products = _productRepository.GetAll(queryParameters);
-        return Ok(products.ToList());
+        var products = await _productRepository.GetAll(queryParameters);
+        return Ok(products);
     }
     
     [HttpPut("{id}")]
-    public IActionResult UpdateProduct([FromBody]Product product, int id)
+    public async Task<IActionResult> UpdateProduct([FromBody]Product product, int id)
     {
         _logger.LogInformation("Updating product with Id: {ProductId}", id);
         try
         {
-            var existingProduct = _productRepository.GetByNameAndBrand(product.Name, product.Brand);
+            var existingProduct = await _productRepository.GetByNameAndBrand(product.Name, product.Brand);
             if (existingProduct != null)
             {
                 _logger.LogError("There is already a product with Name: {ProductName} and Brand: {ProductBrand}", product.Name,product.Brand);
-                return Conflict("There is already a product with \"the same name and brand\"."); // HTTP 409 Conflict
+                return Conflict("There is already a product with \"the same name and brand\"."); 
             }
-            _productRepository.Update(product,id);
+            await _productRepository.Update(product,id);
             return Ok(product);
         }
         catch (ArgumentNullException ex)
@@ -91,12 +91,12 @@ public class ProductController : ControllerBase
     }
     
     [HttpDelete("{id}")]
-    public IActionResult DeleteProduct(int id)
+    public async Task<IActionResult> DeleteProduct(int id)
     {
         _logger.LogInformation("Deleting product with Id: {ProductId}", id);
         try
         {
-            _productRepository.Delete(id);
+            await _productRepository.Delete(id);
             return Ok();
         }
         catch (ArgumentException ex)
