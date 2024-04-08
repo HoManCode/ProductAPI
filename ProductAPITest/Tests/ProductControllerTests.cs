@@ -21,14 +21,14 @@ public class ProductControllerTests
     }
 
     [Fact]
-    public void CreateProduct_ProductDoesNotExist_ReturnsOkResult()
+    public async Task CreateProduct_ProductDoesNotExist_ReturnsOkResult()
     {
         // Arrange
         var product = new Product { Name = "Test Product", Brand = "Test Brand" };
-        _mockProductRepository.Setup(repo => repo.GetByNameAndBrand(product.Name, product.Brand)).Returns((Product)null);
+        _mockProductRepository.Setup(repo => repo.GetByNameAndBrand(product.Name, product.Brand)).ReturnsAsync((Product)null);
 
         // Act
-        var result = _sut.CreateProduct(product);
+        var result = await _sut.CreateProduct(product);
 
         // Assert
         var okResult = Assert.IsType<OkObjectResult>(result);
@@ -36,14 +36,14 @@ public class ProductControllerTests
     }
 
     [Fact]
-    public void CreateProduct_ProductAlreadyExists_ReturnsConflictResult()
+    public async Task CreateProduct_ProductAlreadyExists_ReturnsConflictResult()
     {
         // Arrange
         var product = new Product { Name = "Existing Product", Brand = "Existing Brand" };
-        _mockProductRepository.Setup(repo => repo.GetByNameAndBrand(product.Name, product.Brand)).Returns(product);
+        _mockProductRepository.Setup(repo => repo.GetByNameAndBrand(product.Name, product.Brand)).ReturnsAsync(product);
 
         // Act
-        var result = _sut.CreateProduct(product);
+        var result = await _sut.CreateProduct(product);
 
         // Assert
         var conflictResult = Assert.IsType<ConflictObjectResult>(result);
@@ -51,15 +51,15 @@ public class ProductControllerTests
     }
     
     [Fact]
-    public void GetProductById_ProductExists_ReturnsOkResult()
+    public async Task GetProductById_ProductExists_ReturnsOkResult()
     {
         // Arrange
         int productId = 1;
         var expectedProduct = new Product { Id = productId, Name = "Test Product", Price = 10.99m };
-        _mockProductRepository.Setup(repo => repo.GetById(productId)).Returns(expectedProduct);
+        _mockProductRepository.Setup(repo => repo.GetById(productId)).ReturnsAsync(expectedProduct);
 
         // Act
-        var result = _sut.GetProductById(productId);
+        var result = await _sut.GetProductById(productId);
 
         // Assert
         var okResult = Assert.IsType<OkObjectResult>(result);
@@ -68,14 +68,14 @@ public class ProductControllerTests
     }
 
     [Fact]
-    public void GetProductById_ProductDoesNotExist_ReturnsNotFoundResult()
+    public async Task GetProductById_ProductDoesNotExist_ReturnsNotFoundResult()
     {
         // Arrange
         int productId = 1;
-        _mockProductRepository.Setup(repo => repo.GetById(productId)).Returns((Product)null);
+        _mockProductRepository.Setup(repo => repo.GetById(productId)).ReturnsAsync((Product)null);
 
         // Act
-        var result = _sut.GetProductById(productId);
+        var result = await _sut.GetProductById(productId);
 
         // Assert
         var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
@@ -83,7 +83,7 @@ public class ProductControllerTests
     }
     
     [Fact]
-    public void GetAllProducts_ReturnsOkResultWithProducts()
+    public async Task GetAllProducts_ReturnsOkResultWithProducts()
     {
         // Arrange
         var queryParameters = new QueryParameters();
@@ -92,10 +92,10 @@ public class ProductControllerTests
             new Product { Id = 1, Name = "Product 1", Brand = "Brand 1", Price = 11.1m },
             new Product { Id = 2, Name = "Product 2", Brand = "Brand 2", Price = 22.2m }
         };
-        _mockProductRepository.Setup(repo => repo.GetAll(queryParameters)).Returns(products.AsQueryable());
+        _mockProductRepository.Setup(repo => repo.GetAll(queryParameters)).ReturnsAsync(products);
 
         // Act
-        var result = _sut.GetAllProducts(queryParameters);
+        var result = await _sut.GetAllProducts(queryParameters);
 
         // Assert
         var okResult = Assert.IsType<OkObjectResult>(result);
@@ -104,15 +104,15 @@ public class ProductControllerTests
     }
     
     [Fact]
-    public void UpdateProduct_ProductExists_ReturnsOkResult()
+    public async Task UpdateProduct_ProductExists_ReturnsOkResult()
     {
         // Arrange
         int productId = 1;
         var product = new Product { Id = productId, Name = "Updated Product", Brand = "Updated Brand" };
-        _mockProductRepository.Setup(repo => repo.GetByNameAndBrand(product.Name, product.Brand)).Returns((Product)null);
+        _mockProductRepository.Setup(repo => repo.GetByNameAndBrand(product.Name, product.Brand)).ReturnsAsync((Product)null);
 
         // Act
-        var result = _sut.UpdateProduct(product, productId);
+        var result = await _sut.UpdateProduct(product, productId);
 
         // Assert
         var okResult = Assert.IsType<OkObjectResult>(result);
@@ -120,16 +120,16 @@ public class ProductControllerTests
     }
 
     [Fact]
-    public void UpdateProduct_ProductAlreadyExists_ReturnsConflictResult()
+    public async Task UpdateProduct_ProductAlreadyExists_ReturnsConflictResult()
     {
         // Arrange
         int productId = 1;
         var existingProduct = new Product { Id = productId, Name = "Existing Product", Brand = "Existing Brand" };
         var updatedProduct = new Product { Id = productId, Name = "Updated Product", Brand = "Updated Brand" };
-        _mockProductRepository.Setup(repo => repo.GetByNameAndBrand(updatedProduct.Name, updatedProduct.Brand)).Returns(existingProduct);
+        _mockProductRepository.Setup(repo => repo.GetByNameAndBrand(updatedProduct.Name, updatedProduct.Brand)).ReturnsAsync(existingProduct);
 
         // Act
-        var result = _sut.UpdateProduct(updatedProduct, productId);
+        var result = await _sut.UpdateProduct(updatedProduct, productId);
 
         // Assert
         var conflictResult = Assert.IsType<ConflictObjectResult>(result);
@@ -137,13 +137,13 @@ public class ProductControllerTests
     }
     
     [Fact]
-    public void DeleteProduct_ProductExists_ReturnsOkResult()
+    public async Task DeleteProduct_ProductExists_ReturnsOkResult()
     {
         // Arrange
         int productId = 1;
 
         // Act
-        var result = _sut.DeleteProduct(productId);
+        var result = await _sut.DeleteProduct(productId);
 
         // Assert
         var okResult = Assert.IsType<OkResult>(result);
@@ -151,14 +151,14 @@ public class ProductControllerTests
     }
 
     [Fact]
-    public void DeleteProduct_ProductDoesNotExist_ReturnsNotFoundResult()
+    public async Task DeleteProduct_ProductDoesNotExist_ReturnsNotFoundResult()
     {
         // Arrange
         int productId = 1;
         _mockProductRepository.Setup(repo => repo.Delete(productId)).Throws(new ArgumentException("Product does not exist"));
 
         // Act
-        var result = _sut.DeleteProduct(productId);
+        var result = await _sut.DeleteProduct(productId);
 
         // Assert
         var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
@@ -166,7 +166,7 @@ public class ProductControllerTests
     }
 
     [Fact]
-    public void DeleteProduct_ExceptionThrown_ReturnsBadRequestResult()
+    public async Task DeleteProduct_ExceptionThrown_ReturnsBadRequestResult()
     {
         // Arrange
         int productId = 1;
@@ -174,7 +174,7 @@ public class ProductControllerTests
         _mockProductRepository.Setup(repo => repo.Delete(productId)).Throws(new Exception(errorMessage));
 
         // Act
-        var result = _sut.DeleteProduct(productId);
+        var result = await _sut.DeleteProduct(productId);
 
         // Assert
         var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
