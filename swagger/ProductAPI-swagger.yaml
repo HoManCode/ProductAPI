@@ -1,0 +1,126 @@
+openapi: 3.0.1
+info:
+  title: ProductAPI
+  version: "1.0"
+paths:
+  /api/products:
+    post:
+      tags:
+        - Product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+          application/*+json:
+            schema:
+              $ref: "#/components/schemas/Product"
+      responses:
+        "200":
+          description: Success
+    get:
+      tags:
+        - Product
+      parameters:
+        - name: Page
+          in: query
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: Size
+          in: query
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: MinPrice
+          in: query
+          style: form
+          schema:
+            type: number
+            format: double
+        - name: MaxPrice
+          in: query
+          style: form
+          schema:
+            type: number
+            format: double
+      responses:
+        "200":
+          description: Success
+  /api/products/{id}:
+    get:
+      tags:
+        - Product
+      parameters:
+        - name: id
+          in: path
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: Success
+    put:
+      tags:
+        - Product
+      parameters:
+        - name: id
+          in: path
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+          application/*+json:
+            schema:
+              $ref: "#/components/schemas/Product"
+      responses:
+        "200":
+          description: Success
+    delete:
+      tags:
+        - Product
+      parameters:
+        - name: id
+          in: path
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: Success
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+          nullable: true
+        brand:
+          type: string
+          nullable: true
+        price:
+          type: number
+          format: double
+      additionalProperties: false
