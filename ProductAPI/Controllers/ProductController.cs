@@ -49,6 +49,11 @@ public class ProductController : ControllerBase
     public async Task<IActionResult> GetProductById(int id)
     {
         _logger.LogInformation("Getting product with Id: {ProductId}", id);
+        // Validate parameter
+        if (id <= 0 )
+        {
+            return BadRequest("Invalid id");
+        }
         var product = await _productRepository.GetById(id);
         if (product != null) return Ok(product);
         _logger.LogInformation("Product with Id: {ProductId} does not exist", id);
@@ -59,6 +64,11 @@ public class ProductController : ControllerBase
     public async Task<IActionResult> GetAllProducts([FromQuery]QueryParameters queryParameters)
     {
         _logger.LogInformation("Getting requested products");
+        // Validate query parameters
+        if (queryParameters.MinPrice < 0 || queryParameters.MaxPrice < 0 || queryParameters.MinPrice > queryParameters.MaxPrice)
+        {
+            return BadRequest("Invalid price range.");
+        }
         var products = await _productRepository.GetAll(queryParameters);
         return Ok(products);
     }

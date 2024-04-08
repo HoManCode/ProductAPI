@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: ProductAPI
-  version: "1.0"
+  version: '1.0'
 paths:
   /api/products:
     post:
@@ -11,15 +11,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Product"
+              $ref: '#/components/schemas/Product'
           text/json:
             schema:
-              $ref: "#/components/schemas/Product"
+              $ref: '#/components/schemas/Product'
           application/*+json:
             schema:
-              $ref: "#/components/schemas/Product"
+              $ref: '#/components/schemas/Product'
       responses:
-        "200":
+        '200':
           description: Success
     get:
       tags:
@@ -50,7 +50,7 @@ paths:
             type: number
             format: double
       responses:
-        "200":
+        '200':
           description: Success
   /api/products/{id}:
     get:
@@ -65,7 +65,7 @@ paths:
             type: integer
             format: int32
       responses:
-        "200":
+        '200':
           description: Success
     put:
       tags:
@@ -82,15 +82,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Product"
+              $ref: '#/components/schemas/Product'
           text/json:
             schema:
-              $ref: "#/components/schemas/Product"
+              $ref: '#/components/schemas/Product'
           application/*+json:
             schema:
-              $ref: "#/components/schemas/Product"
+              $ref: '#/components/schemas/Product'
       responses:
-        "200":
+        '200':
           description: Success
     delete:
       tags:
@@ -104,7 +104,7 @@ paths:
             type: integer
             format: int32
       responses:
-        "200":
+        '200':
           description: Success
 components:
   schemas:
