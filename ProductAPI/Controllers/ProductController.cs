@@ -60,9 +60,23 @@ public class ProductController : ControllerBase
     {
         _logger.LogInformation("Getting requested products");
         IQueryable<Product> products = _productRepository.GetAll();
+        
+        if (queryParameters.MinPrice != null)
+        {
+            products = products.Where(
+                p => p.Price >= queryParameters.MinPrice);
+        }
+        
+        if (queryParameters.MaxPrice != null)
+        {
+            products = products.Where(
+                p => p.Price <= queryParameters.MaxPrice);
+        }
+        
         products = products
             .Skip(queryParameters.Size * (queryParameters.Page - 1))
             .Take(queryParameters.Size);
+        
         return Ok(products.ToList());
     }
     

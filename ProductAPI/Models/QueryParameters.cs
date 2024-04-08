@@ -13,4 +13,7 @@ public class QueryParameters
         get => _size;
         set => _size = Math.Min(_maxSize, value);
     }
+    
+    public decimal? MinPrice { get; set; }
+    public decimal? MaxPrice { get; set; }
 }
