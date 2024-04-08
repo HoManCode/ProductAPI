@@ -24,9 +24,27 @@ public class ProductRepository : IProductRepository
         return _context.Products.Find(id);
     }
 
-    public DbSet<Product> GetAll()
+    public IQueryable<Product> GetAll(QueryParameters queryParameters)
     {
-        return _context.Products;
+        IQueryable<Product> products = _context.Products;
+        
+        if (queryParameters.MinPrice != null)
+        {
+            products = products.Where(
+                p => p.Price >= queryParameters.MinPrice);
+        }
+        
+        if (queryParameters.MaxPrice != null)
+        {
+            products = products.Where(
+                p => p.Price <= queryParameters.MaxPrice);
+        }
+        
+        products = products
+            .Skip(queryParameters.Size * (queryParameters.Page - 1))
+            .Take(queryParameters.Size);
+        
+        return products;
     }
 
     public Product? GetByNameAndBrand(string name, string brand)

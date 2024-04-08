@@ -9,7 +9,7 @@ public interface IProductRepository
     
     public Product? GetById(int id);
     
-    public DbSet<Product> GetAll();
+    public IQueryable<Product> GetAll(QueryParameters queryParameters);
 
     public Product? GetByNameAndBrand(string name, string brand);
     
