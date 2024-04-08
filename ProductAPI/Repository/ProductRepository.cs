@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using ProductAPI.Data;
 using ProductAPI.Models;
 
@@ -23,9 +24,9 @@ public class ProductRepository : IProductRepository
         return _context.Products.Find(id);
     }
 
-    public List<Product> GetAll()
+    public DbSet<Product> GetAll()
     {
-        return _context.Products.ToList();
+        return _context.Products;
     }
 
     public Product? GetByNameAndBrand(string name, string brand)

@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using ProductAPI.Models;
 
 namespace ProductAPI.Repository;
@@ -8,7 +9,7 @@ public interface IProductRepository
     
     public Product? GetById(int id);
     
-    public List<Product> GetAll();
+    public DbSet<Product> GetAll();
 
     public Product? GetByNameAndBrand(string name, string brand);
     

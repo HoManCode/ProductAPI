@@ -56,11 +56,14 @@ public class ProductController : ControllerBase
     }
     
     [HttpGet]
-    public IActionResult GetAllProducts()
+    public IActionResult GetAllProducts([FromQuery]QueryParameters queryParameters)
     {
-        _logger.LogInformation("Getting all products");
-        var products = _productRepository.GetAll();
-        return Ok(products);
+        _logger.LogInformation("Getting requested products");
+        IQueryable<Product> products = _productRepository.GetAll();
+        products = products
+            .Skip(queryParameters.Size * (queryParameters.Page - 1))
+            .Take(queryParameters.Size);
+        return Ok(products.ToList());
     }
     
     [HttpPut("{id}")]
