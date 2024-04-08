@@ -36,7 +36,7 @@ This repository contains an ASP.NET Core Product API implementing CRUD operation
 GET /api/products?MinPrice=v&MaxPrice=v&Page=v&Size=v: Retrieves requested products.<br>GET /api/products/{id}: Retrieves a product by its ID.<br>POST /api/products: Creates a new product.<br>PUT /api/products/{id}: Updates an existing product.<br>DELETE /api/products/{id}: Deletes a product by its ID.
 
 ## Technologies Used
-C# .NET 8 Core<br>Database Operations (Entity Framework Core) <br>Unit Testing (xUnit, Moq)<br>API Documentation (Swagger)<br>Microsoft.Extensions.Logging (Logging)
+Framework (ASP.NET Core C#)<br>Database Operations (Entity Framework Core) <br>Unit Testing (xUnit, Moq)<br>API Documentation (Swagger)<br>Logging (Microsoft.Extensions.Logging)
 
 ## Contributing
 Contributions are welcome! If you find any issues or have suggestions, feel free to open an issue or create a pull request.
