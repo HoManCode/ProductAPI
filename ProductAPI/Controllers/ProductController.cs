@@ -49,13 +49,18 @@ public class ProductController : ControllerBase
     public IActionResult GetProductById(int id)
     {
         _logger.LogInformation("Getting product with Id: {ProductId}", id);
-        Product? product = _productRepository.GetById(id);
-        if (product == null)
-        {
-            _logger.LogInformation("Product with Id: {ProductId} does not exist", id);
-            return NotFound("Product does not exist");
-        }
-        return Ok(product);
+        var product = _productRepository.GetById(id);
+        if (product != null) return Ok(product);
+        _logger.LogInformation("Product with Id: {ProductId} does not exist", id);
+        return NotFound("Product does not exist");
+    }
+    
+    [HttpGet]
+    public IActionResult GetAllProducts()
+    {
+        _logger.LogInformation("Getting all products");
+        var products = _productRepository.GetAll();
+        return Ok(products);
     }
     
     [HttpPut("{id}")]

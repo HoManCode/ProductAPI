@@ -22,7 +22,12 @@ public class ProductRepository : IProductRepository
     {
         return _context.Products.Find(id);
     }
-    
+
+    public List<Product> GetAll()
+    {
+        return _context.Products.ToList();
+    }
+
     public Product? GetByNameAndBrand(string name, string brand)
     {
         return _context.Products.FirstOrDefault(p => p.Name == name && p.Brand == brand);

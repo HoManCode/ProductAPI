@@ -7,6 +7,8 @@ public interface IProductRepository
     public void Create(Product product);
     
     public Product? GetById(int id);
+    
+    public List<Product> GetAll();
 
     public Product? GetByNameAndBrand(string name, string brand);
     
