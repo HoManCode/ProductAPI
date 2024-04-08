@@ -116,48 +116,48 @@ public class ProductControllerTests
     }
     
     [Fact]
-        public void DeleteProduct_ProductExists_ReturnsOkResult()
-        {
-            // Arrange
-            int productId = 1;
+    public void DeleteProduct_ProductExists_ReturnsOkResult()
+    {
+        // Arrange
+        int productId = 1;
 
-            // Act
-            var result = _sut.DeleteProduct(productId);
+        // Act
+        var result = _sut.DeleteProduct(productId);
 
-            // Assert
-            var okResult = Assert.IsType<OkResult>(result);
-            _mockProductRepository.Verify(repo => repo.Delete(productId), Times.Once);
-        }
+        // Assert
+        var okResult = Assert.IsType<OkResult>(result);
+        _mockProductRepository.Verify(repo => repo.Delete(productId), Times.Once);
+    }
 
-        [Fact]
-        public void DeleteProduct_ProductDoesNotExist_ReturnsNotFoundResult()
-        {
-            // Arrange
-            int productId = 1;
-            _mockProductRepository.Setup(repo => repo.Delete(productId)).Throws(new ArgumentException("Product does not exist"));
+    [Fact]
+    public void DeleteProduct_ProductDoesNotExist_ReturnsNotFoundResult()
+    {
+        // Arrange
+        int productId = 1;
+        _mockProductRepository.Setup(repo => repo.Delete(productId)).Throws(new ArgumentException("Product does not exist"));
 
-            // Act
-            var result = _sut.DeleteProduct(productId);
+        // Act
+        var result = _sut.DeleteProduct(productId);
 
-            // Assert
-            var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
-            Assert.Equal("Product does not exist", notFoundResult.Value);
-        }
+        // Assert
+        var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
+        Assert.Equal("Product does not exist", notFoundResult.Value);
+    }
 
-        [Fact]
-        public void DeleteProduct_ExceptionThrown_ReturnsBadRequestResult()
-        {
-            // Arrange
-            int productId = 1;
-            string errorMessage = "Internal server error";
-            _mockProductRepository.Setup(repo => repo.Delete(productId)).Throws(new Exception(errorMessage));
+    [Fact]
+    public void DeleteProduct_ExceptionThrown_ReturnsBadRequestResult()
+    {
+        // Arrange
+        int productId = 1;
+        string errorMessage = "Internal server error";
+        _mockProductRepository.Setup(repo => repo.Delete(productId)).Throws(new Exception(errorMessage));
 
-            // Act
-            var result = _sut.DeleteProduct(productId);
+        // Act
+        var result = _sut.DeleteProduct(productId);
 
-            // Assert
-            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-            Assert.Equal(errorMessage, badRequestResult.Value);
-        }
+        // Assert
+        var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+        Assert.Equal(errorMessage, badRequestResult.Value);
+    }
     
 }
