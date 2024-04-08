@@ -102,7 +102,7 @@ public class ProductController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(ex, "An error occurred while processing the request: {ErrorMessage}", ex.Message);
-            return BadRequest(ex);
+            return BadRequest(ex.Message);
         }
     }
 }
