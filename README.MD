@@ -29,7 +29,7 @@ This repository contains an ASP.NET Core Product API implementing CRUD operation
 - Execute unit tests using the following command:
 
     ```bash
-    cd ProductAPI
+    cd ProductAPITest
     dotnet test
     ```
 ## API Documentation
