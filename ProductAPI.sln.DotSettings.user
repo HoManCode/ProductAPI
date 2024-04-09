@@ -8,6 +8,7 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=8af8db82_002D2f14_002D4597_002D9052_002De413d486e67c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CreateProduct_ProductAlreadyExists_ReturnsConflictResult #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;xUnit::F4D6A648-2E98-405A-9536-689CF566344D::net8.0::ProductAPITest.Tests.ProductControllerTests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::F4D6A648-2E98-405A-9536-689CF566344D::net8.0::ProductAPITest.Tests.ProductRepositoryTests&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d17271a4_002Ddf51_002D4cb6_002Da39f_002D758821eba847/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CreateProduct_ProductDoesNotExist_ReturnsOkResult" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
