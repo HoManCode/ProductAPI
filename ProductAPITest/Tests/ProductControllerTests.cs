@@ -82,6 +82,19 @@ public class ProductControllerTests
         Assert.Equal("Product does not exist", notFoundResult.Value);
     }
     
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    public async Task GetProductById_InvalidId_ReturnsBadRequest(int id)
+    {
+        // Act
+        var result = await _sut.GetProductById(id);
+
+        // Assert
+        var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+        Assert.Equal("Invalid id", badRequestResult.Value);
+    }
+    
     [Fact]
     public async Task GetAllProducts_ReturnsOkResultWithProducts()
     {
