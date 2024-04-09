@@ -19,7 +19,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> CreateProduct([FromBody]Product product)
+    public async Task<IActionResult> CreateProduct([FromBody]Product product)
     {
         _logger.LogInformation("creating product with Name: {ProductName} and Brand: {ProductBrand}", product.Name,product.Brand);
         try
