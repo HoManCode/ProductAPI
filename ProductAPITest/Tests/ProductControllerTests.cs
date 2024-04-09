@@ -118,6 +118,47 @@ public class ProductControllerTests
         var okResult = Assert.IsType<OkObjectResult>(result);
         Assert.Equal(product, okResult.Value);
     }
+    
+    [Fact]
+    public async Task GetAllProducts_ValidQueryParameters_ReturnsOk()
+    {
+        // Arrange
+        var queryParameters = new QueryParameters
+        {
+            MinPrice = 0,
+            MaxPrice = 100
+        };
+        _mockProductRepository.Setup(repo => repo.GetAll(queryParameters)).ReturnsAsync([]);
+        
+        // Act
+        var result = await _sut.GetAllProducts(queryParameters);
+
+        // Assert
+        var okResult = Assert.IsType<OkObjectResult>(result);
+        var products = Assert.IsAssignableFrom<IEnumerable<Product>>(okResult.Value);
+        Assert.Empty(products);
+    }
+    
+    [Theory]
+    [InlineData(-1, 100)] // Invalid MinPrice
+    [InlineData(0, -1)]   // Invalid MaxPrice
+    [InlineData(100, 50)] // MinPrice greater than MaxPrice
+    public async Task GetAllProducts_InvalidQueryParameters_ReturnsBadRequest(int minPrice, int maxPrice)
+    {
+        // Arrange
+        var queryParameters = new QueryParameters
+        {
+            MinPrice = minPrice,
+            MaxPrice = maxPrice
+        };
+
+        // Act
+        var result = await _sut.GetAllProducts(queryParameters);
+
+        // Assert
+        var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+        Assert.Equal("Invalid price range.", badRequestResult.Value);
+    }
 
     [Fact]
     public async Task UpdateProduct_ProductAlreadyExists_ReturnsConflictResult()

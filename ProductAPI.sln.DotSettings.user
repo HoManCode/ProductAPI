@@ -2,12 +2,12 @@
 	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">/Users/hoomanshykhipour/Library/Caches/JetBrains/Rider2023.3/resharper-host/temp/Rider/vAny/CoverageData/_ProductAPI.357899025/Snapshot/snapshot.utdcvr</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/CreateUnitTestDialog/TestProjectMapping/=9EA79445_002D4EE0_002D4E20_002D871D_002D3534B8CCC42F/@EntryIndexedValue">9EA79445-4EE0-4E20-871D-3534B8CCC42F</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/CreateUnitTestDialog/TestTemplateMapping/=xUnit/@EntryIndexedValue">33ff99d8-b1ad-4ed5-a4fd-376b97c2c841</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=1cf6a6b0_002D5f01_002D45fb_002D8a85_002D8307d7dc462a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CreateProduct_ProductAlreadyExists_ReturnsConflictResult" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=1cf6a6b0_002D5f01_002D45fb_002D8a85_002D8307d7dc462a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CreateProduct_ProductAlreadyExists_ReturnsConflictResult" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Solution /&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=8af8db82_002D2f14_002D4597_002D9052_002De413d486e67c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CreateProduct_ProductAlreadyExists_ReturnsConflictResult #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=8af8db82_002D2f14_002D4597_002D9052_002De413d486e67c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CreateProduct_ProductAlreadyExists_ReturnsConflictResult #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::F4D6A648-2E98-405A-9536-689CF566344D::net8.0::ProductAPITest.Tests.ProductControllerTests.CreateProduct_ProductAlreadyExists_ReturnsConflictResult&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::F4D6A648-2E98-405A-9536-689CF566344D::net8.0::ProductAPITest.Tests.ProductControllerTests&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d17271a4_002Ddf51_002D4cb6_002Da39f_002D758821eba847/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CreateProduct_ProductDoesNotExist_ReturnsOkResult" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
